@@ -47,7 +47,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
-		log.Println(rs)
+		log.Printf("Successfully sent response with: %d", rs)
 	})
 
 	err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.port), nil)
