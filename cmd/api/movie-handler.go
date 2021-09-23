@@ -3,10 +3,8 @@ package main
 import (
 	"errors"
 	"github.com/julienschmidt/httprouter"
-	"movie-blog-backend/models"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 func (app *application) getOneMovie(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +19,14 @@ func (app *application) getOneMovie(w http.ResponseWriter, r *http.Request) {
 
 	app.logger.Println("id is", id)
 
-	movie := models.Movie{
+	movie, err := app.models.DB.Get(id)
+
+	if err != nil {
+		app.logger.Println(err)
+		return
+	}
+
+	/*movie := models.Movie{
 		ID:          id,
 		Title:       "Some movie",
 		Description: "Some description",
@@ -32,7 +37,9 @@ func (app *application) getOneMovie(w http.ResponseWriter, r *http.Request) {
 		MPAARating:  "PG-13",
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
-	}
+	}*/
+
+	app.logger.Print(movie)
 
 	err = app.writeJSON(w, http.StatusOK, movie, "movie")
 }
